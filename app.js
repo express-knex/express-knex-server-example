@@ -17,12 +17,17 @@ module.exports = (app) => {
       app.set('views', path.join(__dirname, 'views'))
       app.set('view engine', 'pug')
 
+      // setup middlewares:
       app.use(logger('dev'))
       app.use(express.json())
       app.use(express.urlencoded({ extended: false }))
       app.use(cookieParser())
       app.use(express.static(path.join(__dirname, 'public')))
 
+      // init cors:
+      app.cors = cors
+
+      // init routes:
       app.use('/', indexRouter)
       app.use('/users', usersRouter)
 
@@ -42,6 +47,5 @@ module.exports = (app) => {
         res.render('error')
       })
 
-      app.cors = cors
     })
 }
