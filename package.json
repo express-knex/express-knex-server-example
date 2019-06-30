@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "babel-node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,5 +12,9 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "standard": "^12.0.1"
   }
 }
