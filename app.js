@@ -4,9 +4,14 @@ import express from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
+import knexStorage from 'express-knex-storage-sqlite'
+import env from 'dotenv-safe'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
+
+// load .env
+env.config()
 
 module.exports = (app) => {
   return Promise.resolve()
@@ -27,6 +32,9 @@ module.exports = (app) => {
       // init cors:
       app.cors = cors
 
+      // init storage:
+      app.storage = knexStorage(app)
+
       // init routes:
       app.use('/', indexRouter)
       app.use('/users', usersRouter)
@@ -46,6 +54,5 @@ module.exports = (app) => {
         res.status(err.status || 500)
         res.render('error')
       })
-
     })
 }

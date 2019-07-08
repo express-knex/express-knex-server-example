@@ -8,8 +8,9 @@
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv-safe": "^6.1.0",
     "express": "~4.16.1",
-    "express-knex-storage-sqlite": "github:express-knex/express-knex-storage-sqlite",
+    "express-knex-storage-sqlite": "^0.0.2",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
