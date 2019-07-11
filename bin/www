@@ -4,76 +4,77 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('express-knex-server-example:server');
-var http = require('http');
+import Debug from 'debug'
+import http from 'http'
+import os from 'os'
+
+import App from '../app'
+import env from 'dotenv-safe'
+
+// define debug namespace:
+const serverDebug = Debug('express-knex-server-example:server')
+const serverError = Debug('express-knex-server-example:error')
+
+// load .env
+env.config()
+
+// define our main app variable
+let app = {}
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+// async init of app:
+App(env)
+  .then((_app) => {
+    app = _app
 
-/**
- * Create HTTP server.
- */
+    // create info object with some server meta:
+    const info = {}
+    info.port = (typeof port === 'string' ? port : parseInt(port, 10))
+    info.portType = (typeof port === 'string' ? 'Pipe' : 'Port')
+    info.hostname = os.hostname()
+    info.url = `http://${info.hostname}:${info.port.toString()}`
 
-var server = http.createServer(app);
+    // create http server:
+    app.set('port', info.port)
+    app.server = http.createServer(app)
+    app.server.info = info
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    // init debug objects:
+    app.server.debug = serverDebug
+    app.server.error = serverError
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+    // spin up server:
+    app.server.listen(info.port)
+    app.server.on('error', onError)
+    app.server.on('listening', onListening)
+    app.server.on('close', onClose)
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
+  })
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError (error) {
   if (error.syscall !== 'listen') {
-    throw error;
+    throw error
   }
-
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
+      app.server.error(app.server.info.portType + ' requires elevated privileges')
+      process.exit(1)
+
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
+      app.server.error(app.server.info.portType + ' is already in use')
+      process.exit(1)
+
     default:
-      throw error;
+      throw error
   }
 }
 
@@ -81,10 +82,15 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+function onListening () {
+  app.server.debug(`Listening on http://${app.server.info.hostname}:${app.server.info.port.toString()}`)
+}
+
+// migrate database on exit:
+function onClose () {
+  if (app.storage && app.storage.db && app.storage.db.migrate) {
+    return app.storage.db.migrate.latest({})
+      .then(() => app.storage.db.destroy())
+      .catch(() => process.exit(1))
+  }
 }
