@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
@@ -32,6 +30,7 @@ App(env)
 
     // create info object with some server meta:
     const info = {}
+    const port = process.env.PORT | 3000
     info.port = (typeof port === 'string' ? port : parseInt(port, 10))
     info.portType = (typeof port === 'string' ? 'Pipe' : 'Port')
     info.hostname = os.hostname()
@@ -45,13 +44,13 @@ App(env)
     // init debug objects:
     app.server.debug = serverDebug
     app.server.error = serverError
+    app.server.log = console.log
 
     // spin up server:
     app.server.listen(info.port)
     app.server.on('error', onError)
     app.server.on('listening', onListening)
     app.server.on('close', onClose)
-
   })
 
 /**
@@ -83,7 +82,7 @@ function onError (error) {
  */
 
 function onListening () {
-  app.server.debug(`Listening on http://${app.server.info.hostname}:${app.server.info.port.toString()}`)
+  app.server.log(`Listening on http://${app.server.info.hostname}:${app.server.info.port.toString()}`)
 }
 
 // migrate database on exit:

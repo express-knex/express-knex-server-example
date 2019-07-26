@@ -5,18 +5,26 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import knexStorage from 'express-knex-storage-sqlite'
-import env from 'dotenv-safe'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 
-// load .env
-env.config()
-
-module.exports = (app) => {
+/**
+ * Build Express App with Knex engine
+ * @param env (optional) environment vars
+ * @return {Promise<app>} will return promise of initialized app
+ */
+module.exports = (env) => {
   return Promise.resolve()
     .then(() => {
       let app = express()
+
+      // set env
+      if (env) {
+        app.env = env
+      } else {
+        app.env = process.env
+      }
 
       // view engine setup
       app.set('views', path.join(__dirname, 'views'))
@@ -30,7 +38,11 @@ module.exports = (app) => {
       app.use(express.static(path.join(__dirname, 'public')))
 
       // init cors:
-      app.cors = cors
+      app.use(cors({
+        origin: '*',
+        allowedHeaders: 'Content-Type,Authorization,Content-Range,Accept,Accept-Encoding,Accept-Language',
+        exposedHeaders: 'Content-Type,Authorization,Content-Range,Accept,Accept-Encoding,Accept-Language'
+      }))
 
       // init storage:
       app.storage = knexStorage(app)
@@ -54,5 +66,6 @@ module.exports = (app) => {
         res.status(err.status || 500)
         res.render('error')
       })
+      return app
     })
 }

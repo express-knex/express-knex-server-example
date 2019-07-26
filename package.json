@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "babel-node ./bin/www",
+    "start": "cross-env DEBUG='*' babel-node bin/server.js",
     "clean": "rimraf lib",
     "test": "npm run lint && npm run cover",
     "test:prod": "cross-env BABEL_ENV=production npm run test",
@@ -22,7 +22,7 @@
     "express-knex-storage-sqlite": "^0.0.4",
     "http-errors": "~1.7.3",
     "morgan": "~1.9.1",
-    "pug": "2.0.4"
+    "pug": "^2.0.4"
   },
   "devDependencies": {
     "standard": "^12.0.1",

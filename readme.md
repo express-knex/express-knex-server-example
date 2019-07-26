@@ -28,16 +28,16 @@ In `app.js`: use async style for app initialization function, see code for examp
 
 ## Express app initialization steps:
 
-* load environment vars: use dotenv / dotenv-safe
-* select view engine: pug by default
+* (+) load environment vars: use dotenv / dotenv-safe
+* (+) select view engine: pug by default
 * init middlewares: 
-    * cors,
-    * json,
-    * url-encoded
-    * cookie support
-    * static server
+    * (+) cors,
+    * (+) json,
+    * (+) url-encoded
+    * (+) cookie support
+    * (+) static server
 * init storage: 
-    * select storage driver,
+    * (+) select storage driver,
     * select auth storage driver, 
     * define driver-specific method for open/close storage,
     * init generic methods for data access,
