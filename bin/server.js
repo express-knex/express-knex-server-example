@@ -24,7 +24,7 @@ let app = {}
  */
 
 // async init of app:
-App(env)
+App(process.env)
   .then((_app) => {
     app = _app
 

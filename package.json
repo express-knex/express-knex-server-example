@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env DEBUG='*' babel-node bin/server.js",
+    "start": "cross-env DEBUG='express-knex-server-example:*' babel-node bin/server.js",
     "clean": "rimraf lib",
     "test": "npm run lint && npm run cover",
     "test:prod": "cross-env BABEL_ENV=production npm run test",
@@ -20,6 +20,8 @@
     "dotenv-safe": "^6.1.0",
     "express": "~4.17.1",
     "express-knex-storage-sqlite": "^0.0.4",
+    "express-knex-mailer": "^0.0.3",
+    "express-knex-wrap": "^0.0.2",
     "http-errors": "~1.7.3",
     "morgan": "~1.9.1",
     "pug": "^2.0.4"

@@ -5,6 +5,8 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import knexStorage from 'express-knex-storage-sqlite'
+import Wrap from 'express-knex-wrap'
+import Mail from 'express-knex-mailer'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
@@ -43,6 +45,10 @@ module.exports = (env) => {
         allowedHeaders: 'Content-Type,Authorization,Content-Range,Accept,Accept-Encoding,Accept-Language',
         exposedHeaders: 'Content-Type,Authorization,Content-Range,Accept,Accept-Encoding,Accept-Language'
       }))
+
+      // init services
+      app.wrap = Wrap(app)
+      app.mail = Mail(app)
 
       // init storage:
       app.storage = knexStorage(app)
