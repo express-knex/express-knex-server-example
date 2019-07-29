@@ -9,10 +9,6 @@ import os from 'os'
 import App from '../app'
 import env from 'dotenv-safe'
 
-// define debug namespace:
-const serverDebug = Debug('express-knex-server-example:server')
-const serverError = Debug('express-knex-server-example:error')
-
 // load .env
 env.config()
 
@@ -42,8 +38,8 @@ App(process.env)
     app.server.info = info
 
     // init debug objects:
-    app.server.debug = serverDebug
-    app.server.error = serverError
+    app.server.debug = Debug('express-knex-server-example:server')
+    app.server.error = Debug('express-knex-server-example:error')
     app.server.log = console.log
 
     // spin up server:
