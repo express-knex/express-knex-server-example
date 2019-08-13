@@ -22,6 +22,8 @@
     "@express-knex/storage-sqlite": "^0.1.0",
     "@express-knex/mailer": "^0.1.1",
     "@express-knex/wrap": "^0.1.12",
+    "@express-knex/errors": "^0.0.4",
+    "@express-knex/validator": "^0.1.1",
     "http-errors": "^1.7.3",
     "morgan": "^1.9.1",
     "pug": "^2.0.4"

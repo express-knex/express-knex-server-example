@@ -7,6 +7,8 @@ import logger from 'morgan'
 import knexStorage from '@express-knex/storage-sqlite'
 import Wrap from '@express-knex/wrap'
 import Mail from '@express-knex/mailer'
+import Errors from '@express-knex/errors'
+import Validator from '@express-knex/validator'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
@@ -19,7 +21,7 @@ import usersRouter from './routes/users'
 module.exports = (env) => {
   return Promise.resolve()
     .then(() => {
-      let app = express()
+      const app = express()
 
       // set env
       if (env) {
@@ -47,11 +49,13 @@ module.exports = (env) => {
       }))
 
       // init services
+      app.errors = Errors(app)
       app.wrap = Wrap(app)
       app.mail = Mail(app)
 
       // init storage:
       app.storage = knexStorage(app)
+      app.validator = Validator(app)
 
       // init routes:
       app.use('/', indexRouter)
