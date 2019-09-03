@@ -9,6 +9,7 @@ import Wrap from '@express-knex/wrap'
 import Mail from '@express-knex/mailer'
 import Errors from '@express-knex/errors'
 import Validator from '@express-knex/validator'
+import Controller from '@express-knex/controller'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
@@ -56,6 +57,7 @@ module.exports = (env) => {
       // init storage:
       app.storage = knexStorage(app)
       app.validator = Validator(app)
+      app.controller = Controller(app)
 
       // init routes:
       app.use('/', indexRouter)
