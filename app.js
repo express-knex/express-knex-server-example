@@ -10,6 +10,7 @@ import Mail from '@express-knex/mailer'
 import Errors from '@express-knex/errors'
 import Validator from '@express-knex/validator'
 import Controller from '@express-knex/controller'
+import CrudActions from '@express-knex/crud-actions'
 
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
@@ -58,6 +59,7 @@ module.exports = (env) => {
       app.storage = knexStorage(app)
       app.validator = Validator(app)
       app.controller = Controller(app)
+      app.controller.CrudActions = CrudActions(app)
 
       // init routes:
       app.use('/', indexRouter)
