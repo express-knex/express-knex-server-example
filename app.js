@@ -12,8 +12,9 @@ import Validator from '@express-knex/validator'
 import Controller from '@express-knex/controller'
 import CrudActions from '@express-knex/crud-actions'
 
+import User from '@express-knex/entity-user'
+
 import indexRouter from './routes/index'
-import usersRouter from './routes/users'
 
 /**
  * Build Express App with Knex engine
@@ -24,6 +25,7 @@ module.exports = (env) => {
   return Promise.resolve()
     .then(() => {
       const app = express()
+      app.express = express
 
       // set env
       if (env) {
@@ -61,9 +63,12 @@ module.exports = (env) => {
       app.controller = Controller(app)
       app.controller.CrudActions = CrudActions(app)
 
+      // init models:
+      app.models = {}
+      app.models.User = User(app)
+
       // init routes:
       app.use('/', indexRouter)
-      app.use('/users', usersRouter)
 
       // catch 404 and forward to error handler
       app.use(function (req, res, next) {
