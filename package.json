@@ -22,6 +22,7 @@
     "@express-knex/wrap": "^0.1.12",
     "@express-knex/crud-actions": "^0.2.15",
     "@express-knex/entity-user": "^0.2.0",
+    "@express-knex/route-builder": "^0.4.4",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "debug": "^4.1.1",

@@ -11,6 +11,7 @@ import Errors from '@express-knex/errors'
 import Validator from '@express-knex/validator'
 import Controller from '@express-knex/controller'
 import CrudActions from '@express-knex/crud-actions'
+import RouteBuilder from '@express-knex/route-builder'
 
 import User from '@express-knex/entity-user'
 
@@ -66,6 +67,9 @@ module.exports = (env) => {
       // init models:
       app.models = {}
       app.models.User = User(app)
+
+      app.routeBuilder = RouteBuilder(app)
+      app.routeBuilder.routerForAllModels()
 
       // init routes:
       app.use('/', indexRouter)
