@@ -22,10 +22,12 @@ import indexRouter from './routes/index'
  * @param env (optional) environment vars
  * @return {Promise<app>} will return promise of initialized app
  */
+
+let app = null
 module.exports = (env) => {
   return Promise.resolve()
     .then(() => {
-      const app = express()
+      app = express()
       app.express = express
 
       // set env
@@ -91,4 +93,8 @@ module.exports = (env) => {
       })
       return app
     })
+    .then((app) => app.storage.storageInit())
+    .then(() => app.models.User.storageSchemaInit())
+    .then(() => app)
+    .catch((e) => { throw e})
 }
