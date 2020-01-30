@@ -96,5 +96,5 @@ module.exports = (env) => {
     .then((app) => app.storage.storageInit())
     .then(() => app.models.User.storageSchemaInit())
     .then(() => app)
-    .catch((e) => { throw e})
+    .catch((e) => { throw e })
 }
