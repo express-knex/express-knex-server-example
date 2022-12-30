@@ -52,9 +52,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-node": "^10.0.0",
-    "mocha": "^6.2.2",
+    "mocha": "^10.2.0",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.0",
-    "release-it": "^12.4.3"
+    "release-it": "^15.6.0"
   }
 }
